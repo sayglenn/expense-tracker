@@ -2,8 +2,8 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { signInSchema } from "@/src/lib/zod";
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
-import { db } from "@/src/drizzle/schema";
-import { getUserFromDb } from "@/src/lib/utils";
+import { db } from "@/src/db/index";
+import { getUserFromDb } from "@/src/db/queries";
 import { ZodError } from "zod";
 const bcrypt = require('bcrypt');
 
