@@ -28,7 +28,7 @@ export default function HomePageHeader() {
         >
           Need help with your expenses? Click below to begin.
         </p>
-        <Link href="/login">
+        <Link href="/dashboard">
           <button className="group flex flex-row gap-2 items-center border-2 border-white py-4 px-8 duration-500 rounded-3xl text-white transition-all hover:bg-white hover:-translate-y-2">
             <p className="group-hover:text-[#162341]">Get Started</p>
             <FaArrowRight className="text-4xl transform transition-transform duration-1000 group-hover:translate-x-4 group-hover:bg-[#162341] p-2 rounded-full" />

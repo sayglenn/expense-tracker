@@ -1,3 +1,4 @@
+import type { AdapterAccountType } from "next-auth/adapters"
 import {
   pgTable,
   integer,
@@ -10,10 +11,9 @@ import {
   boolean,
 } from 'drizzle-orm/pg-core';
 
-export const users = pgTable('users', {
+export const users = pgTable('user', {
   id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull(),
   email: text('email').notNull(),
   password: text('password').notNull(),
 });
-
