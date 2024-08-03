@@ -28,7 +28,7 @@ export default function NavBar() {
             }`}
           >
             {link.icon}
-            <p className="hidden md:text-sm md:block lg:text-lg">{link.text}</p>
+            <p className="hidden md:text-sm md:block lg:text-xl">{link.text}</p>
           </div>
         </Link>
       ))}

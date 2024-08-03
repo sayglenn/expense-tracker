@@ -10,7 +10,7 @@ export default function AddTransaction() {
   return (
     <>
       <button
-        className="absolute right-[8%] bottom-[12%] group flex items-center justify-around w-16 h-16 text-[#162341] rounded-full transition-all duration-500 overflow-hidden hover:w-[200px] bg-white p-5"
+        className="absolute right-[8%] bottom-[10%] group flex items-center justify-around w-16 h-16 text-[#162341] rounded-full transition-all duration-500 overflow-hidden hover:w-[200px] bg-white p-5"
         onClick={() => setShowDialog(true)}
       >
         <FaPlus className="text-2xl" />

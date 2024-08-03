@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
+import GitHub from "./images/github-mark.svg";
+import LinkedIn from "./images/linkedin.webp";
 
 export default function HomePageHeader() {
   const [loaded, setLoaded] = useState(false);
@@ -13,7 +16,7 @@ export default function HomePageHeader() {
 
   return (
     <>
-      <div className="flex justify-center items-center flex-col top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute border-white border rounded-3xl px-12 py-7 bg-[#162341]">
+      <div className="w-[80%] md:w-[540px] flex justify-center items-center flex-col border-white border rounded-3xl px-10 py-7 bg-[#162341]">
         <p
           className={`text-white text-3xl font-bold transition-all duration-1000 ${
             loaded ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0"
@@ -34,6 +37,20 @@ export default function HomePageHeader() {
             <FaArrowRight className="text-4xl transform transition-transform duration-1000 group-hover:translate-x-4 group-hover:bg-[#162341] p-2 rounded-full" />
           </button>
         </Link>
+        <div className="flex flex-row mt-6 gap-3 border-t p-3">
+          <Link href="https://github.com/sayglenn">
+            <div className="bg-white p-3 rounded-3xl flex items-center gap-2">
+              <Image src={GitHub} alt="GitHub" width={30} height={30} />
+              <p className="hidden sm:block">github/sayglenn</p>
+            </div>
+          </Link>
+          <Link href="https://linkedin.com/in/sayglenn">
+            <div className="bg-white p-3 rounded-3xl flex items-center gap-2">
+              <Image src={LinkedIn} alt="LinkedIn" width={30} height={30} />
+              <p className="hidden sm:block">linkedin/sayglenn</p>
+            </div>
+          </Link>
+        </div>
       </div>
     </>
   );

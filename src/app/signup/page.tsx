@@ -65,9 +65,9 @@ export default function Page() {
     "rounded-md absolute left-3 -top-2 text-[#162341] text-[12px] bg-white px-1 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base transition-all duration-200 transform";
 
   return (
-    <>
+    <div className="min-h-screen flex justify-center items-center">
       <div
-        className={`flex-col items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute px-12 py-7 border-white border bg-[#162341] rounded-3xl ${
+        className={`w-[80%] px-3 sm:w-[500px] flex-col items-center sm:px-10 py-7 border-white border bg-[#162341] rounded-3xl ${
           displayForm ? "flex" : "hidden"
         }`}
       >
@@ -179,7 +179,7 @@ export default function Page() {
             </button>
           </form>
           {error && <p className="text-red-500 mt-2">{error}</p>}
-          <p className="italic text-gray-400 mt-4">
+          <p className="italic text-gray-400 mt-4 text-center">
             Already have an account? Log in{" "}
             <Link href="/login" className="text-blue-600 hover:underline">
               here!
@@ -193,6 +193,6 @@ export default function Page() {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
