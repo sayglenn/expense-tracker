@@ -17,3 +17,13 @@ export const users = pgTable('user', {
   email: text('email').notNull(),
   password: text('password').notNull(),
 });
+
+export const transactions = pgTable('transaction', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  amount: numeric('amount', {scale: 2}).notNull(),
+  name: text('name').notNull(),
+  date: timestamp('date').notNull(),
+  type: text('type').notNull(),
+  category: text('category').notNull(),
+  user_id: text('user_id').notNull().references(() => users.id),
+});
