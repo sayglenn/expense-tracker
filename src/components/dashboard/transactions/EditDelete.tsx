@@ -3,13 +3,19 @@
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { useRouter } from "next/navigation";
-import { Spinner } from "@/src/components/ui/Spinner";
 import { useState } from "react";
 import { FaCircleNotch } from "react-icons/fa";
+import TransactionDialog from "../TransactionDialog";
+import { Transaction } from "@/src/lib/utils";
 
-export default function EditDelete({ id }: { id: string }) {
+export default function EditDelete({
+  transaction,
+}: {
+  transaction: Transaction;
+}) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
   const deleteTransaction = async (id: string) => {
     setLoading(true);
     try {
@@ -34,23 +40,32 @@ export default function EditDelete({ id }: { id: string }) {
 
   return (
     <>
-      <div className="px-7 border-x border-black flex justify-center items-center">
-        <button className="hover:bg-slate-100 p-2 rounded-full hover:scale-110 flex justify-center items-center">
+      <div className="px-7 border-x flex justify-center items-center">
+        <button
+          onClick={() => setShowDialog(true)}
+          className="transition-all duration-300 hover:bg-slate-800 p-2 rounded-full hover:scale-110 flex justify-center items-center"
+        >
           <FaRegEdit className="text-2xl" />
         </button>
       </div>
       <div className="flex justify-center items-center">
         <button
-          onClick={() => deleteTransaction(id)}
-          className="hover:bg-slate-100 p-2 rounded-full hover:scale-110 flex justify-center items-center"
+          onClick={() => deleteTransaction(transaction.id)}
+          className="transition-all duration-300 hover:bg-slate-800 p-2 rounded-full hover:scale-110 flex justify-center items-center"
         >
           {loading ? (
-            <FaCircleNotch className="animate-spin text-3xl text-inherit" />
+            <FaCircleNotch className="animate-spin text-2xl text-white" />
           ) : (
-            <MdDeleteOutline className="text-3xl" />
+            <MdDeleteOutline className="text-2xl" />
           )}
         </button>
       </div>
+      <TransactionDialog
+        editing={true}
+        isDialogOpen={showDialog}
+        setDialog={() => setShowDialog(false)}
+        transaction={transaction}
+      />
     </>
   );
 }

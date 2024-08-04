@@ -4,15 +4,7 @@ import { getTransactions } from "@/src/db/queries";
 import TransactionsHeader from "@/src/components/dashboard/transactions/TransactionsHeader";
 import { formatYearMonth, formatDateCard } from "@/src/lib/utils";
 import EditDelete from "@/src/components/dashboard/transactions/EditDelete";
-
-type Transaction = {
-  amount: string;
-  name: string;
-  date: string;
-  type: string;
-  category: string;
-  id: string;
-};
+import { Transaction } from "@/src/lib/utils";
 
 type GroupedTransactions = {
   [key: string]: Transaction[];
@@ -54,13 +46,11 @@ export default async function Page() {
     );
   }
 
-  console.log(combined_transactions);
-
   return (
     <>
       <div className="flex flex-col p-8">
         <TransactionsHeader />
-        <div className="flex flex-col gap-2 overflow-y-scroll">
+        <div className="flex flex-col gap-2 overflow-y-scroll h-[620px]">
           {sorted_months.map((month) => {
             return (
               <div key={month} className="w-full border-b py-3">
@@ -74,24 +64,25 @@ export default async function Page() {
                     return (
                       <div
                         key={transaction.id}
-                        className={`flex flex-row px-7 py-4 rounded-3xl items-center gap-7 ${
+                        className={`text-white flex flex-row px-7 py-4 rounded-3xl items-center gap-7 ${
                           transaction.type == "expense"
-                            ? "bg-red-300"
-                            : "bg-green-300"
+                            ? "bg-red-900"
+                            : "bg-green-900"
                         }`}
                       >
                         <div className="flex flex-col flex-grow">
                           <p className="font-bold text-2xl">
                             {transaction.name}
                           </p>
-                          <p className="text-sm">
+                          <p>${transaction.amount}</p>
+                          <p className="text-sm italic">
                             {date} {time}
                           </p>
                         </div>
-                        <p className="bg-gray-300 p-3 rounded-3xl text-sm">
+                        <p className="bg-gray-900 p-3 rounded-3xl text-sm">
                           {transaction.category}
                         </p>
-                        <EditDelete id={transaction.id} />
+                        <EditDelete transaction={transaction} />
                       </div>
                     );
                   })}

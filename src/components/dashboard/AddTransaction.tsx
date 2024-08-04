@@ -19,6 +19,7 @@ export default function AddTransaction() {
         </p>
       </button>
       <TransactionDialog
+        editing={false}
         isDialogOpen={showDialog}
         setDialog={() => setShowDialog(false)}
       />

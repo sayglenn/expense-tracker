@@ -21,6 +21,23 @@ export async function POST(request : NextRequest) {
   return NextResponse.json(tr);
 }
 
+export async function PUT(request : NextRequest) {
+  const session = await auth();
+  const body = await request.json();
+  const { id, amount, category, name, transaction, time } = body;
+
+  const tr = await db.update(transactions).set({
+    amount: amount,
+    name: name,
+    date: time,
+    type: transaction,
+    category: category,
+    user_id: session?.user?.id as string,
+  }).where(eq(transactions.id, id));
+
+  return NextResponse.json(tr);
+}
+
 export async function DELETE(request : NextRequest) {
   const body = await request.json();
   const { id } = body;

@@ -5,17 +5,22 @@ import {
   AlertDialogTitle,
 } from "@/src/components/ui/alert-dialog";
 import { Spinner } from "@/src/components/ui/Spinner";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { TfiAngleDown } from "react-icons/tfi";
 import { useRouter } from "next/navigation";
+import { Transaction } from "@/src/lib/utils";
 
 export default function TransactionDialog({
   isDialogOpen,
   setDialog,
+  editing,
+  transaction,
 }: {
   isDialogOpen: boolean;
   setDialog: () => void;
+  editing: boolean;
+  transaction?: Transaction;
 }) {
   const {
     register,
@@ -30,33 +35,60 @@ export default function TransactionDialog({
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const nameValue = watch("name", "");
-  const amountValue = watch("amount", "");
-  const transactionValue = watch("transaction", "income");
+  const nameValue = watch("name", transaction?.name || "");
+  const amountValue = watch("amount", transaction?.amount || "");
+  const transactionValue = watch("transaction", transaction?.type || "income");
+
+  useEffect(() => {
+    if (transaction) {
+      reset({
+        name: transaction.name,
+        amount: transaction.amount,
+        transaction: transaction.type,
+        category: transaction.category,
+        time: transaction.date,
+      });
+    }
+  }, [transaction, reset]);
 
   const submitTransaction = async (data: FieldValues) => {
     setSubmitting(true);
     setError("");
-    try {
-      const response = await fetch("/api/transaction", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        console.log(errorMessage);
-        setError(errorMessage);
-        setSubmitting(false);
-        return;
+    if (editing) {
+      try {
+        const response = await fetch("/api/transaction", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...data, id: transaction?.id }),
+        });
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          setError(errorMessage);
+          return;
+        }
+      } catch (error) {
+        setError("An error occurred. Please try again.");
       }
-      setSubmitting(false);
-      reset();
-    } catch (error) {
-      setError("An error occurred. Please try again.");
-      setSubmitting(false);
+    } else {
+      try {
+        const response = await fetch("/api/transaction", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          setError(errorMessage);
+          return;
+        }
+        reset();
+      } catch (error) {
+        setError("An error occurred. Please try again.");
+      }
     }
     router.refresh();
     setDialog();
@@ -259,7 +291,13 @@ export default function TransactionDialog({
                 submitting ? "py-0" : "py-3"
               }`}
             >
-              {submitting ? <Spinner /> : "Add Transaction"}
+              {submitting ? (
+                <Spinner />
+              ) : editing ? (
+                "Edit Transaction"
+              ) : (
+                "Add Transaction"
+              )}
             </button>
             {error && <p className="text-red-500 mt-2">{error}</p>}
           </form>

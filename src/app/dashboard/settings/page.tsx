@@ -14,7 +14,7 @@ export default async function Page() {
     <div className="flex flex-col p-8">
       <SettingsHeader />
       <form
-        className="mt-12"
+        className="mt-6"
         action={async () => {
           "use server";
           await signOut();

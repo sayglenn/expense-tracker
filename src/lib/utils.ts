@@ -15,3 +15,12 @@ export function formatDateCard(dateString : string) {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+export type Transaction = {
+  amount: string;
+  name: string;
+  date: string;
+  type: string;
+  category: string;
+  id: string;
+};
