@@ -22,7 +22,7 @@ export const transactions = pgTable('transaction', {
   id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
   amount: numeric('amount', {scale: 2}).notNull(),
   name: text('name').notNull(),
-  date: timestamp('date').notNull(),
+  date: text('date').notNull(),
   type: text('type').notNull(),
   category: text('category').notNull(),
   user_id: text('user_id').notNull().references(() => users.id),

@@ -8,6 +8,7 @@ import { Spinner } from "@/src/components/ui/Spinner";
 import { useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { TfiAngleDown } from "react-icons/tfi";
+import { useRouter } from "next/navigation";
 
 export default function TransactionDialog({
   isDialogOpen,
@@ -26,10 +27,12 @@ export default function TransactionDialog({
     reValidateMode: "onSubmit",
   });
 
+  const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const nameValue = watch("name", "");
   const amountValue = watch("amount", "");
+  const transactionValue = watch("transaction", "income");
 
   const submitTransaction = async (data: FieldValues) => {
     setSubmitting(true);
@@ -55,6 +58,7 @@ export default function TransactionDialog({
       setError("An error occurred. Please try again.");
       setSubmitting(false);
     }
+    router.refresh();
     setDialog();
     setSubmitting(false);
   };
@@ -112,8 +116,8 @@ export default function TransactionDialog({
                 {...register("amount", {
                   required: "Amount is required",
                   pattern: {
-                    value: /^\d+(\.\d{1,2})?$/,
-                    message: "Invalid amount format",
+                    value: /^\d+\.\d{2}$/,
+                    message: "Amount must be in dollars and cents, e.g. 10.25",
                   },
                   validate: (value) =>
                     parseFloat(value) >= 0 ||
@@ -133,6 +137,25 @@ export default function TransactionDialog({
               </label>
               {errors.amount && (
                 <p className={errorClass}>{errors.amount.message as string}</p>
+              )}
+            </div>
+            <div className="relative mt-6">
+              <input
+                type="datetime-local"
+                placeholder="Transaction Time"
+                id="time"
+                className={`${fieldClass} ${
+                  errors.email ? "border-red-500" : ""
+                }`}
+                {...register("time", {
+                  required: "Transaction Time is required",
+                })}
+              ></input>
+              <label htmlFor="amount" className={labelClass}>
+                Transaction Time
+              </label>
+              {errors.time && (
+                <p className={errorClass}>{errors.time.message as string}</p>
               )}
             </div>
             <div className="relative mt-6">
@@ -162,39 +185,73 @@ export default function TransactionDialog({
                 </p>
               )}
             </div>
-            <div className="relative mt-6">
-              <select
-                {...register("category", {
-                  required: "Category is required",
-                })}
-                id="category"
-                className={
-                  `${fieldClass} ${
-                    errors.transaction ? "border-red-500" : ""
-                  }` + " peer appearance-none bg-[#162341] px-4"
-                }
-              >
-                <option value="food">🍔 Food</option>
-                <option value="transport">🚈 Transport</option>
-                <option value="fashion">👔 Fashion</option>
-                <option value="healthcare">🚑 Healthcare</option>
-                <option value="groceries">🛒 Groceries</option>
-                <option value="subscriptions">🔄 Subscriptions</option>
-                <option value="utilities">💡 Utilities</option>
-                <option value="miscellaneous">🕳️ Miscellaneous</option>
-              </select>
-              <label htmlFor="category" className={labelClass}>
-                Category
-              </label>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4">
-                <TfiAngleDown className="text-white" />
+            {transactionValue === "expense" && (
+              <div className="relative mt-6">
+                <select
+                  {...register("category", {
+                    required: "Category is required",
+                  })}
+                  id="category"
+                  className={
+                    `${fieldClass} ${
+                      errors.transaction ? "border-red-500" : ""
+                    }` + " peer appearance-none bg-[#162341] px-4"
+                  }
+                >
+                  <option>🍔 Food</option>
+                  <option>🚈 Transport</option>
+                  <option>👔 Fashion</option>
+                  <option>🚑 Healthcare</option>
+                  <option>🛒 Groceries</option>
+                  <option>🔄 Subscriptions</option>
+                  <option>💡 Utilities</option>
+                  <option>🕳️ Miscellaneous</option>
+                </select>
+                <label htmlFor="category" className={labelClass}>
+                  Category
+                </label>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4">
+                  <TfiAngleDown className="text-white" />
+                </div>
+                {errors.category && (
+                  <p className={errorClass}>
+                    {errors.category.message as string}
+                  </p>
+                )}
               </div>
-              {errors.category && (
-                <p className={errorClass}>
-                  {errors.category.message as string}
-                </p>
-              )}
-            </div>
+            )}
+            {transactionValue === "income" && (
+              <div className="relative mt-6">
+                <select
+                  {...register("category", {
+                    required: "Category is required",
+                  })}
+                  id="category"
+                  className={
+                    `${fieldClass} ${
+                      errors.transaction ? "border-red-500" : ""
+                    }` + " peer appearance-none bg-[#162341] px-4"
+                  }
+                >
+                  <option>💰 Salary</option>
+                  <option>💹 Investments</option>
+                  <option>🧧 Gifts</option>
+                  <option>💵 Allowance</option>
+                  <option>🕳️ Miscellaneous</option>
+                </select>
+                <label htmlFor="category" className={labelClass}>
+                  Category
+                </label>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4">
+                  <TfiAngleDown className="text-white" />
+                </div>
+                {errors.category && (
+                  <p className={errorClass}>
+                    {errors.category.message as string}
+                  </p>
+                )}
+              </div>
+            )}
             <button
               disabled={submitting}
               type="submit"
