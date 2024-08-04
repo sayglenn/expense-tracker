@@ -9,7 +9,7 @@ export default function Layout({
   return (
     <>
       <div className="flex justify-center items-center min-h-screen">
-        <div className="flex flex-row border-2 border-white bg-[#162341] w-[90%] p-7 rounded-3xl">
+        <div className="p-3 flex flex-row border-2 border-white bg-[#162341] w-[90%] md:p-7 rounded-3xl">
           <NavBar />
           {children}
           <AddTransaction />

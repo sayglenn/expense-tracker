@@ -48,40 +48,43 @@ export default async function Page() {
 
   return (
     <>
-      <div className="flex flex-col p-8">
+      <div className="p-3 flex flex-col md:p-8 items-stretch flex-grow">
         <TransactionsHeader />
-        <div className="flex flex-col gap-2 overflow-y-scroll h-[620px]">
+        <div className="px-1 flex flex-col gap-2 overflow-y-scroll h-[620px] w-[100%] md:px-5">
           {sorted_months.map((month) => {
             return (
               <div key={month} className="w-full border-b py-3">
                 <p className="text-xl font-bold text-white mb-3">
                   {formatYearMonth(month)}
                 </p>
-                <div className="flex flex-col gap-5 overflow-y-scroll">
+                <div className="flex flex-col gap-5">
                   {combined_transactions[month].map((transaction) => {
                     const date = formatDateCard(transaction.date);
                     const time = transaction.date.slice(11, 16);
                     return (
                       <div
                         key={transaction.id}
-                        className={`text-white flex flex-row px-7 py-4 rounded-3xl items-center gap-7 ${
+                        className={`text-white flex flex-row px-6 py-4 rounded-3xl items-center gap-3 xl:gap-7 ${
                           transaction.type == "expense"
                             ? "bg-red-900"
                             : "bg-green-900"
                         }`}
                       >
                         <div className="flex flex-col flex-grow">
-                          <p className="font-bold text-2xl">
+                          <p className="text-sm font-bold md:text-2xl">
                             {transaction.name}
                           </p>
                           <p>${transaction.amount}</p>
-                          <p className="text-sm italic">
+                          <p className="text-[10px] md:text-sm italic">
                             {date} {time}
                           </p>
                         </div>
-                        <p className="bg-gray-900 p-3 rounded-3xl text-sm">
-                          {transaction.category}
-                        </p>
+                        <div className="bg-gray-900 p-3 rounded-3xl flex flex-row gap-2 items-center">
+                          <p>{transaction.category.slice(0, 2)}</p>
+                          <p className="hidden md:block text-sm">
+                            {transaction.category.slice(2)}
+                          </p>
+                        </div>
                         <EditDelete transaction={transaction} />
                       </div>
                     );

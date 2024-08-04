@@ -104,10 +104,10 @@ export default function TransactionDialog({
   return (
     <>
       <AlertDialog open={isDialogOpen} onOpenChange={setDialog}>
-        <AlertDialogContent className="bg-[#162341] w-[80%] rounded-lg">
+        <AlertDialogContent className="bg-[#162341] w-[80%] rounded-lg flex flex-col items-stretch">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-white text-center text-2xl">
-              Add Transaction
+              {editing ? "Edit Transaction" : "Add Transaction"}
             </AlertDialogTitle>
           </AlertDialogHeader>
           <form
@@ -291,13 +291,7 @@ export default function TransactionDialog({
                 submitting ? "py-0" : "py-3"
               }`}
             >
-              {submitting ? (
-                <Spinner />
-              ) : editing ? (
-                "Edit Transaction"
-              ) : (
-                "Add Transaction"
-              )}
+              {submitting ? <Spinner /> : editing ? "Edit" : "Add"}
             </button>
             {error && <p className="text-red-500 mt-2">{error}</p>}
           </form>

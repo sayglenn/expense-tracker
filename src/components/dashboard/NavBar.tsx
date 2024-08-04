@@ -19,11 +19,11 @@ export default function NavBar() {
   ];
 
   return (
-    <div className="flex flex-col justify-around text-white w-[18%] text-xl border-r-2 pr-7 flex-shrink-0">
+    <div className="pr-3 flex flex-col justify-around items-stretch text-white w-[18%] text-xl border-r-2 md:pr-7 flex-shrink-0">
       {links.map((link) => (
         <Link key={link.href} href={link.href}>
           <div
-            className={`flex flex-col items-center justify-center max-w-[220px] h-[180px] rounded-3xl gap-3 transition-transform transform duration-200 hover:scale-110 ${
+            className={`flex flex-col items-center justify-center h-[180px] rounded-3xl gap-3 transition-transform transform duration-200 hover:scale-110 ${
               pathname == link.href ? "bg-[#0c1323]" : ""
             }`}
           >

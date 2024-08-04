@@ -40,23 +40,41 @@ export default function EditDelete({
 
   return (
     <>
-      <div className="px-7 border-x flex justify-center items-center">
+      <div className="hidden sm:flex px-3 xl:px-7 border-x justify-center items-center">
         <button
           onClick={() => setShowDialog(true)}
           className="transition-all duration-300 hover:bg-slate-800 p-2 rounded-full hover:scale-110 flex justify-center items-center"
         >
-          <FaRegEdit className="text-2xl" />
+          <FaRegEdit className="text-xl md:text-2xl" />
         </button>
       </div>
-      <div className="flex justify-center items-center">
+      <div className="hidden sm:flex justify-center items-center">
         <button
           onClick={() => deleteTransaction(transaction.id)}
           className="transition-all duration-300 hover:bg-slate-800 p-2 rounded-full hover:scale-110 flex justify-center items-center"
         >
           {loading ? (
-            <FaCircleNotch className="animate-spin text-2xl text-white" />
+            <FaCircleNotch className="animate-spin text-xl md:text-2xl text-white" />
           ) : (
-            <MdDeleteOutline className="text-2xl" />
+            <MdDeleteOutline className="text-xl md:text-2xl" />
+          )}
+        </button>
+      </div>
+      <div className="flex sm:hidden flex-col gap-2">
+        <button
+          onClick={() => setShowDialog(true)}
+          className="transition-all duration-300 hover:bg-slate-800 p-2 rounded-full hover:scale-110 flex justify-center items-center"
+        >
+          <FaRegEdit className="text-lg" />
+        </button>
+        <button
+          onClick={() => deleteTransaction(transaction.id)}
+          className="transition-all duration-300 hover:bg-slate-800 p-2 rounded-full hover:scale-110 flex justify-center items-center"
+        >
+          {loading ? (
+            <FaCircleNotch className="animate-spin text-sm text-white" />
+          ) : (
+            <MdDeleteOutline className="text-lg" />
           )}
         </button>
       </div>
