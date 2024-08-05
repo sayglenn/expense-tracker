@@ -4,11 +4,7 @@ import { getTransactions } from "@/src/db/queries";
 import TransactionsHeader from "@/src/components/dashboard/transactions/TransactionsHeader";
 import { formatYearMonth, formatDateCard } from "@/src/lib/utils";
 import EditDelete from "@/src/components/dashboard/transactions/EditDelete";
-import { Transaction } from "@/src/lib/utils";
-
-type GroupedTransactions = {
-  [key: string]: Transaction[];
-};
+import { Transaction, GroupedTransactions } from "@/src/lib/utils";
 
 export default async function Page() {
   const session = await auth();

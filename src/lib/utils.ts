@@ -24,3 +24,7 @@ export type Transaction = {
   category: string;
   id: string;
 };
+
+export type GroupedTransactions = {
+  [key: string]: Transaction[];
+};
